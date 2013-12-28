@@ -10,7 +10,7 @@ try:
     con.commit()
 except Exception as e:
     print e
-cur.execute('INSERT INTO todos(title, _order, done) values("明天下午3点,coding", 1, False);')
+cur.execute('INSERT INTO todos(title, _order, done) values("明天下午3点,coding", 1, 0);')
 con.commit()
 
 cur.close()
