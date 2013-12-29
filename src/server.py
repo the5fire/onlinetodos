@@ -12,6 +12,7 @@ urls = (
 )
 
 app = web.application(urls, globals())
+application = app.wsgifunc()
 
 render = web.template.render('')
 
