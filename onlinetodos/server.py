@@ -2,10 +2,20 @@
 from __future__ import absolute_import
 
 import json
+import os
 
 import web
+from jinja2 import Environment, FileSystemLoader
+
 from onlinetodos.models import Todos
-        
+
+RUN_PATH = os.path.abspath(os.path.dirname(__file__))
+print RUN_PATH
+TEMPLATE_PATH = os.path.join(RUN_PATH, 'templates')
+
+loader = FileSystemLoader(TEMPLATE_PATH)
+lookup = Environment(loader=loader)
+
 urls = (
     '/', 'index',  #返回首页
     '/todo', 'todo',  #  处理POST请求
@@ -13,12 +23,11 @@ urls = (
     '/todos/', 'todos',  # 处理前端todo的请求，返回所有数据
 )
 
-render = web.template.render('')
-
 # 首页
 class index:
     def GET(self):
-        return render.index()
+        t = lookup.get_template('index.html')
+        return t.render()
 
 class todo:
     def GET(self, todo_id=None):
@@ -63,7 +72,8 @@ class todos:
         return json.dumps(todos)
 
 app = web.application(urls, globals())
-application = app.wsgifunc()
+from web.httpserver import StaticMiddleware
+application = app.wsgifunc(StaticMiddleware)
 
 def main():
     app.run()

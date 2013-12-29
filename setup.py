@@ -24,7 +24,7 @@ setup(
         ],
     entry_points={
         'console_scripts': [
-            'onlinetodos = onlinetodos.server:main',
+            'onlinetodos = onlinetodos.server',
         ]
     },
 )
