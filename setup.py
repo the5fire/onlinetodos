@@ -13,17 +13,18 @@ setup(
     author='the5fire',
     author_email='thefivefire@gmail.com',
     url='http://todos.the5fire.com',
-    packages=find_packages(exclude=['*.pyc']),
-    include_package_data = True,
-    package_data = {
+    packages=['onlinetodos',],
+    package_data={
+        'onlinetodos':['*.py', 'static/*', '*.html'],
     },
+    include_package_data = True,
     install_requires=[
         'web.py',
         'gunicorn',
         ],
     entry_points={
         'console_scripts': [
-            'onlinetodos = src.server',
+            'onlinetodos = onlinetodos.server:main',
         ]
     },
 )

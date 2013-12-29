@@ -1,8 +1,10 @@
 #coding:utf-8
+from __future__ import absolute_import
+
 import json
 
 import web
-from models import Todos
+from onlinetodos.models import Todos
         
 urls = (
     '/', 'index',  #返回首页
@@ -10,9 +12,6 @@ urls = (
     '/todo/(\d*)', 'todo',  # 处理前端todo的请求,对指定记录进行操作
     '/todos/', 'todos',  # 处理前端todo的请求，返回所有数据
 )
-
-app = web.application(urls, globals())
-application = app.wsgifunc()
 
 render = web.template.render('')
 
@@ -63,5 +62,11 @@ class todos:
             })
         return json.dumps(todos)
 
-if __name__ == "__main__":
+app = web.application(urls, globals())
+application = app.wsgifunc()
+
+def main():
     app.run()
+
+if __name__ == "__main__":
+    main()
