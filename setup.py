@@ -18,7 +18,6 @@ setup(
     package_data = {
     },
     install_requires=[
-        'essay>=2.9.1.1',
         'web.py',
         'gunicorn',
         ],
