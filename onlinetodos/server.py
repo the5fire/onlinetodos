@@ -10,7 +10,6 @@ from jinja2 import Environment, FileSystemLoader
 from onlinetodos.models import Todos
 
 RUN_PATH = os.path.abspath(os.path.dirname(__file__))
-print RUN_PATH
 TEMPLATE_PATH = os.path.join(RUN_PATH, 'templates')
 
 loader = FileSystemLoader(TEMPLATE_PATH)

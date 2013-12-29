@@ -15,11 +15,12 @@ setup(
     url='http://todos.the5fire.com',
     packages=['onlinetodos',],
     package_data={
-        'onlinetodos':['*.py', 'static/*', '*.html'],
+        'onlinetodos':['*.py', 'static/*', 'templates/*'],
     },
     include_package_data = True,
     install_requires=[
         'web.py',
+        'jinja2',
         'gunicorn',
         ],
     entry_points={
