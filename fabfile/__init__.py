@@ -4,12 +4,12 @@ import os
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
 
-from fabric.api import task, roles
+from fabric.api import task, roles, cd
 from fabric.state import env
 
 from essay.tasks import build
 from essay.tasks import deploy
-from essay.tasks import virtualenv, supervisor, package
+from essay.tasks import virtualenv, supervisor, package, git
 
 env.GIT_SERVER = 'https://github.com/'  # ssh地址只需要填：'github.com'
 env.PROJECT = 'onlinetodos'
@@ -44,12 +44,6 @@ env.VENV_PORT_PREFIX_MAP = {
 @task(default=True)
 @roles('online')
 def git_deploy(venv_dir, profile):
-    """
-    发布指定的版本
-
-    会自动安装项目运行所需要的包
-    """
-
     virtualenv.ensure(venv_dir)
 
     with virtualenv.activate(venv_dir):
@@ -57,3 +51,13 @@ def git_deploy(venv_dir, profile):
         package.install_from_git(env.PROJECT)
         supervisor.shutdown()
         supervisor.start()
+
+
+HOST_PATH = '/home/the5firetodo/a/src/onlinetodos/'
+
+@task(default=True)
+@roles('online')
+def re_deploy(venv_dir, br="master"):
+    with cd(HOST_PATH):
+        git.checkout(br)
+    supervisor.reload(venv_dir)
