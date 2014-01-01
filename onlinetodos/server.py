@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #coding:utf-8
 from __future__ import absolute_import
 
@@ -20,11 +21,36 @@ urls = (
     '/todo', 'todo',  #  处理POST请求
     '/todo/(\d*)', 'todo',  # 处理前端todo的请求,对指定记录进行操作
     '/todos/', 'todos',  # 处理前端todo的请求，返回所有数据
+    '/login', 'login',
+    '/logout', 'logout',
 )
+
+class login:
+    def GET(self):
+        t = lookup.get_template('login.html')
+        return t.render()
+
+    def POST(self):
+        username, passwd = web.input().get("username"), web.input().get("passwd")
+        if username and username == passwd:
+            session.login = True
+            return web.Found('/')
+        # error info
+        return self.render(temp_name, {"error": "用户名或密码错误！"})
+
+
+class logout:
+    def GET(self):
+        session.login = False
+        t = lookup.get_template('login.html')
+        return t.render()
+
 
 # 首页
 class index:
     def GET(self):
+        if not session.login:
+            return web.Found('/login')
         t = lookup.get_template('index.html')
         return t.render()
 
@@ -73,6 +99,17 @@ class todos:
 app = web.application(urls, globals())
 from web.httpserver import StaticMiddleware
 application = app.wsgifunc(StaticMiddleware)
+
+if web.config.get('_session') is None:
+    session = web.session.Session(
+        app,
+        web.session.DiskStore('sessions'),
+        initializer={'login': False}
+    )
+    web.config._session = session
+else:
+    session = web.config._session
+
 
 def main():
     app.run()
