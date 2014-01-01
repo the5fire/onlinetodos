@@ -4,7 +4,6 @@ $(function(){
   // ----------
 
   var Todo = Backbone.Model.extend({
-    url: '/todo/',
     urlRoot: '/todo',
     // Default attributes for the todo item.
     defaults: function() {
