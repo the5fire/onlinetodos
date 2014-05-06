@@ -36,7 +36,7 @@ class login:
             session.login = True
             return web.Found('/')
         # error info
-        return self.render(temp_name, {"error": "用户名或密码错误！"})
+        return t.render(temp_name, {"error": "用户名或密码错误！"})
 
 
 class logout:
