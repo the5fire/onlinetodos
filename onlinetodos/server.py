@@ -8,7 +8,7 @@ import os
 import web
 from jinja2 import Environment, FileSystemLoader
 
-from onlinetodos.models import Todos
+from models import Todos
 
 RUN_PATH = os.path.abspath(os.path.dirname(__file__))
 TEMPLATE_PATH = os.path.join(RUN_PATH, 'templates')
@@ -17,13 +17,14 @@ loader = FileSystemLoader(TEMPLATE_PATH)
 lookup = Environment(loader=loader)
 
 urls = (
-    '/', 'index',  #返回首页
-    '/todo', 'todo',  #  处理POST请求
+    '/', 'index',  # 返回首页
+    '/todo', 'todo',  # 处理POST请求
     '/todo/(\d*)', 'todo',  # 处理前端todo的请求,对指定记录进行操作
     '/todos/', 'todos',  # 处理前端todo的请求，返回所有数据
     '/login', 'login',
     '/logout', 'logout',
 )
+
 
 class login:
     def GET(self):
@@ -36,7 +37,8 @@ class login:
             session.login = True
             return web.Found('/')
         # error info
-        return t.render(temp_name, {"error": "用户名或密码错误！"})
+        t = lookup.get_template('login.html')
+        return t.render({"error": u"用户名或密码错误！"})
 
 
 class logout:
