@@ -73,7 +73,8 @@ class todo:
         todo = json.loads(data)
         # 转换成_order, order是数据库关键字, sqlite3报错
         todo['_order'] = todo.pop('order')
-        Todos.create(**todo)
+        generated_id = Todos.create(**todo)
+        return json.dumps({"id": generated_id})
 
     def PUT(self, todo_id=None):
         data = web.data()
