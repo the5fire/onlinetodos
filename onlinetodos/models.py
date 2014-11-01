@@ -16,7 +16,7 @@ class Todos(object):
 
     @staticmethod
     def create(**kwargs):
-        db.insert('todos', **kwargs)
+        return db.insert('todos', **kwargs)
 
     @staticmethod
     def update(**kwargs):
