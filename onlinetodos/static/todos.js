@@ -111,7 +111,11 @@ $(function(){
       if (!value) {
         this.clear();
       } else {
-        this.model.save({title: value});
+        // Check title is changed
+        var title = this.model.get("title");
+        if(value!=title){
+          this.model.save({title: value});
+        }
         this.$el.removeClass("editing");
       }
     },
